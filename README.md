@@ -2,7 +2,7 @@
 
 This project implements five machine learning classification models to classify websites as **phishing** or **legitimate** using the UCI Phishing Websites dataset.
 
-A Streamlit application is also developed to upload test data, select a trained model, display evaluation metrics, show the confusion matrix, and compare the performance of all five models.
+A Streamlit application is also developed to upload test data, select a trained model, display evaluation metrics, show the confusion matrix, compare the performance of all five models, and identify the overall winning model.
 
 ---
 
@@ -40,15 +40,26 @@ The dataset contains 30 input features describing different characteristics of w
 
 The input features contain encoded values such as `-1`, `0`, and `1`. The meaning of these values depends on the particular feature.
 
+### Duplicate Records
+
+Duplicate feature records were checked and removed before model training.
+
+| Item | Details |
+|---|---:|
+| Original Instances | 11,055 |
+| Duplicate Feature Rows | 5,270 |
+| Duplicate Records Removed | 5,270 |
+
+After removing duplicate feature records, the remaining unique records were used for the train-test split.
+
 ### Train-Test Split
 
-An 80:20 train-test split was used for model training and evaluation.
+An 80:20 train-test split was applied after duplicate record removal.
 
-| Dataset | Number of Instances | Percentage |
-|---|---:|---:|
-| Training Data | 8,844 | 80% |
-| Test Data | 2,211 | 20% |
-| **Total** | **11,055** | **100%** |
+| Dataset | Percentage |
+|---|---:|
+| Training Data | 80% |
+| Test Data | 20% |
 
 The data was split using:
 
@@ -62,12 +73,13 @@ The held-out test dataset is saved as `test_data.csv`.
 
 ---
 
-## 3. GitHub Repository Link
+## 3. GitHub Repository and Streamlit Application
 
 | Item | Details |
 |---|---|
 | GitHub Repository | https://github.com/Shreyasnazare/PhishingClassfication |
-| StreamLit link | https://phishingclassfication-2026aj05794.streamlit.app/ |
+| Streamlit Application | https://phishingclassfication-2026aj05794.streamlit.app/ |
+
 ---
 
 ## 4. Models Used
@@ -84,7 +96,7 @@ Five classification models were implemented and evaluated on the same dataset.
 
 ### Evaluation Metrics
 
-Each model was evaluated using the six metrics required for the classification task.
+Each model was evaluated using the six required evaluation metrics.
 
 | No. | Evaluation Metric |
 |---:|---|
@@ -103,52 +115,56 @@ The performance of all five models on the held-out test dataset is shown below.
 
 | ML Model Name | Accuracy | AUC | Precision | Recall | F1 | MCC |
 |---|---:|---:|---:|---:|---:|---:|
-| Logistic Regression | 0.9281 | 0.9785 | 0.9344 | 0.9010 | 0.9174 | 0.8542 |
-| **Decision Tree** | **0.9697** | 0.9764 | **0.9760** | **0.9551** | **0.9654** | **0.9386** |
-| KNN | 0.9471 | 0.9855 | 0.9499 | 0.9296 | 0.9397 | 0.8927 |
-| Naive Bayes | 0.6160 | 0.9677 | 0.5359 | 0.9990 | 0.6975 | 0.4067 |
-| Support Vector Machine | 0.9516 | **0.9877** | 0.9571 | 0.9327 | 0.9447 | 0.9019 |
+| Logistic Regression | 0.9343 | 0.9831 | 0.9468 | 0.9246 | 0.9356 | 0.8688 |
+| Decision Tree | 0.9386 | 0.9388 | 0.9473 | 0.9330 | 0.9401 | 0.8773 |
+| KNN | 0.9421 | 0.9829 | 0.9446 | 0.9430 | 0.9438 | 0.8841 |
+| Naive Bayes | 0.6586 | 0.9742 | 0.6018 | 1.0000 | 0.7514 | 0.4211 |
+| **Support Vector Machine** | **0.9525** | **0.9897** | **0.9705** | **0.9363** | **0.9531** | **0.9055** |
 
 ---
 
-## 6. Observations on Model Performance
+## 6. Overall Winner
+
+Based on the highest average score across all six evaluation metrics, **Support Vector Machine (SVM)** is selected as the overall winner.
+
+| Item | Result |
+|---|---|
+| **Overall Winner** | **Support Vector Machine (SVM)** |
+| **Overall Score** | **0.9513** |
+
+The overall winner is selected based on the highest average score across:
+
+- Accuracy
+- AUC
+- Precision
+- Recall
+- F1 Score
+- MCC
+
+### Winning Model Performance
+
+| Metric | Support Vector Machine Score |
+|---|---:|
+| Accuracy | **0.9525** |
+| AUC | **0.9897** |
+| Precision | **0.9705** |
+| Recall | **0.9363** |
+| F1 Score | **0.9531** |
+| MCC | **0.9055** |
+
+Support Vector Machine achieves the highest overall average score of **0.9513** and is therefore the **overall winner** for this dataset.
+
+---
+
+## 7. Observations on Model Performance
 
 | ML Model Name | Observation |
 |---|---|
-| **Logistic Regression** | Achieved 0.9281 accuracy and 0.9174 F1 score. It provides a good baseline performance but performs below Decision Tree, KNN and SVM on most metrics. |
-| **Decision Tree** | Achieved the highest Accuracy, Precision, Recall, F1 Score and MCC. It provides the strongest overall performance on this dataset. |
-| **KNN** | Achieved 0.9471 accuracy and 0.9397 F1 score. It performs better than Logistic Regression and Naive Bayes on most metrics. |
-| **Naive Bayes** | Achieved a very high Recall of 0.9990, but its Precision is only 0.5359. This results in lower Accuracy, F1 and MCC compared with the other models. |
-| **Support Vector Machine** | Achieved 0.9516 accuracy and the highest AUC of 0.9877. It provides strong overall performance but is below Decision Tree on most of the other metrics. |
-
----
-
-## 7. Overall Winner
-
-Based on the comparison of all six evaluation metrics, **Decision Tree** is selected as the overall winner.
-
-| Metric | Best Performing Model | Score |
-|---|---|---:|
-| Accuracy | Decision Tree | **0.9697** |
-| AUC | Support Vector Machine | **0.9877** |
-| Precision | Decision Tree | **0.9760** |
-| Recall | Decision Tree | **0.9551** |
-| F1 Score | Decision Tree | **0.9654** |
-| MCC | Decision Tree | **0.9386** |
-
-### Winner: Decision Tree
-
-Decision Tree achieves the best result in **five out of the six evaluation metrics**:
-
-- Accuracy: **0.9697**
-- Precision: **0.9760**
-- Recall: **0.9551**
-- F1 Score: **0.9654**
-- MCC: **0.9386**
-
-Support Vector Machine achieves the highest AUC of **0.9877**.
-
-Therefore, based on the overall comparison across the six required metrics, **Decision Tree is the overall winner** for this dataset.
+| **Logistic Regression** | Achieved 0.9343 accuracy and 0.9356 F1 score. It provides good overall performance and serves as a strong baseline model. |
+| **Decision Tree** | Achieved 0.9386 accuracy and 0.9401 F1 score. It provides consistent performance across the evaluation metrics but has a lower AUC compared with the other strong-performing models. |
+| **KNN** | Achieved 0.9421 accuracy and 0.9438 F1 score. It provides strong overall performance and performs better than Logistic Regression and Decision Tree on several metrics. |
+| **Naive Bayes** | Achieved a Recall of 1.0000, meaning it correctly identifies all positive instances. However, its Accuracy, Precision, F1 Score and MCC are substantially lower than the other models. |
+| **Support Vector Machine** | Achieved the highest Accuracy (0.9525), AUC (0.9897), Precision (0.9705), F1 Score (0.9531) and MCC (0.9055). It provides the strongest overall performance and is selected as the overall winner. |
 
 ---
 
@@ -165,6 +181,7 @@ The project includes a Streamlit application implemented in `app.py`.
 | Evaluation Metrics | Display Accuracy, AUC, Precision, Recall, F1 Score and MCC |
 | Confusion Matrix | Display the confusion matrix for the selected model |
 | Model Comparison | Display the performance comparison of all five models |
+| Overall Winner | Display the model with the highest average score across the six evaluation metrics |
 
 The application loads the saved trained models from the `model` directory.
 
@@ -172,20 +189,13 @@ The uploaded test data is used for prediction and evaluation. The models are not
 
 ---
 
-## 9. Project Structure
+## 9. Requirements
 
-```text
-project-folder/
-│
-├── app.py
-├── requirements.txt
-├── README.md
-├── test_data.csv
-├── 2026AJ05794.ipynb
-│
-└── model/
-    ├── logistic_regression.joblib
-    ├── decision_tree.joblib
-    ├── knn.joblib
-    ├── naive_bayes.joblib
-    └── svm.joblib
+The required Python libraries are listed in `requirements.txt`.
+
+### Install Required Libraries
+
+Run the following command from the project directory:
+
+```bash
+pip install -r requirements.txt
