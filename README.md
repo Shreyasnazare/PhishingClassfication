@@ -66,8 +66,8 @@ The held-out test dataset is saved as `test_data.csv`.
 
 | Item | Details |
 |---|---|
-| GitHub Repository |  |
-
+| GitHub Repository | https://github.com/Shreyasnazare/PhishingClassfication |
+| StreamLit link | https://phishingclassfication-2026aj05794.streamlit.app/ |
 ---
 
 ## 4. Models Used
