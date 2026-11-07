@@ -99,13 +99,15 @@ if uploaded_file is not None:
         columns=["Predicted 0", "Predicted 1"]
     )
 
-    st.dataframe(cm_df)
+    st.dataframe(
+        cm_df,
+        use_container_width=True
+    )
 
     st.write(f"Selected Model: **{selected_model}**")
 
-
     # --------------------------------------------------
-    # Model Comparison - At the End
+    # Model Comparison
     # --------------------------------------------------
 
     st.header("5. Model Comparison")
@@ -153,4 +155,45 @@ if uploaded_file is not None:
             "MCC": "{:.4f}"
         }),
         use_container_width=True
+    )
+
+    # --------------------------------------------------
+    # Overall Winner
+    # --------------------------------------------------
+
+    st.header("6. Overall Winner")
+
+    # Calculate the average of the six evaluation metrics
+    metric_columns = [
+        "Accuracy",
+        "AUC",
+        "Precision",
+        "Recall",
+        "F1",
+        "MCC"
+    ]
+
+    comparison_df["Overall Score"] = (
+        comparison_df[metric_columns].mean(axis=1)
+    )
+
+    winner_row = comparison_df.loc[
+        comparison_df["Overall Score"].idxmax()
+    ]
+
+    winner_model = winner_row["ML Model Name"]
+    winner_score = winner_row["Overall Score"]
+
+    st.success(
+        f"🏆 Overall Winner: **{winner_model}**"
+    )
+
+    st.write(
+        f"Overall Score: **{winner_score:.4f}**"
+    )
+
+    st.write(
+        "The overall winner is selected based on the highest "
+        "average score across Accuracy, AUC, Precision, Recall, "
+        "F1 Score and MCC."
     )
